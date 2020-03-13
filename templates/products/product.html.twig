@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name | capitalize }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="jumbotron">
+                    <h1 class="display-4">{{ product.name | capitalize }}</h1>
+                    <p class="lead">Prix: {{ product.price }}€ l'unité | En stock: {{ product.quantity }}</p>
+                    <hr class="my-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-danger btn-lg mb-3" href="{{ path('removeProduct', {id: product.id}) }}" role="button">Supprimer le produit</a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form(cartLineForm) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ asset('assets/images/' ~ product.image) }}" alt="{{ product.name }}" class="w-100 rounded img-thumbnail">
+            </div>
+        </div>
+    </div>
+{% endblock %}

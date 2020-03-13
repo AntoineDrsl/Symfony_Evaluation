@@ -1,0 +1,26 @@
+Produits: Products
+Panier: Shopping cart
+
+Tous les produits: All the products
+En stock: In stock
+Prix: Price
+Ajouter un produit: Add a product
+Nom du produit: Product name
+Quantité en stock: Quantity in stock
+Prix du produit: Product price
+Photo du produit: Product picture
+Ajouter le produit: Add the product
+Le nom du produit doit faire au moins {{ limit }} caractères.: The product name must be at least {{ limit }} characters
+Le nom du produit ne peut pas faire plus de {{ limit }} caractères.: The product name cannot be longer than {{limit}} characters.
+Le format de votre fichier est invalide. Veuillez entrer un fichier de type {{ types }}.: Invalid format. Please add a file of type {{ types }}.
+Le stock ne peut pas être négatif.: The stock can't be negative.
+Le prix ne peut pas être négatif ou nul.: The price can't be negative or null.
+
+l'unité: per unit
+Supprimer le produit: Remove the product
+Quantité: Quantity
+Ajouter au panier: Add to cart
+Votre panier: Your shopping cart
+Aucun article dans le panier: No product in the cart
+
+
