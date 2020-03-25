@@ -22,7 +22,15 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/", name="products")
+     * @Route("/", name="test")
+     */
+    public function test()
+    {
+        return $this->render('products/test.html.twig');
+    }
+
+    /**
+     * @Route("/test", name="products")
      */
     public function index(Request $request, EntityManagerInterface $entityManager)
     {
