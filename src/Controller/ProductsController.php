@@ -22,7 +22,15 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/", name="test")
+     * @Route("/", name="home")
+     */
+    public function home()
+    {
+        return $this->render('products/home.html.twig');
+    }
+
+    /**
+     * @Route("/test", name="test")
      */
     public function test()
     {
@@ -30,7 +38,7 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="products")
+     * @Route("/products", name="products")
      */
     public function index(Request $request, EntityManagerInterface $entityManager)
     {
