@@ -22,14 +22,6 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/", name="home")
-     */
-    public function home()
-    {
-        return $this->render('products/home.html.twig');
-    }
-
-    /**
      * @Route("/test", name="test")
      */
     public function test()
@@ -38,7 +30,7 @@ class ProductsController extends AbstractController
     }
 
     /**
-     * @Route("/products", name="products")
+     * @Route("/", name="products")
      */
     public function index(Request $request, EntityManagerInterface $entityManager)
     {
@@ -76,27 +68,36 @@ class ProductsController extends AbstractController
     public function singleProduct($id, Request $request, EntityManagerInterface $entityManager)
     {
         $product = $this->productRepository->find($id);
+
+        if($product) {
         
-        $newCartLine = new CartLine();
-        $form = $this->createForm(CartLineType::class, $newCartLine);
-        $form->handleRequest($request);
+            $newCartLine = new CartLine();
+            $form = $this->createForm(CartLineType::class, $newCartLine);
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $newCartLine = $form->getData();
-            $newCartLine->setProduct($product);
+            if($form->isSubmitted() && $form->isValid()) {
+                $newCartLine = $form->getData();
+                $newCartLine->setProduct($product);
 
-            $entityManager->persist($newCartLine);
-            $entityManager->flush();
+                $entityManager->persist($newCartLine);
+                $entityManager->flush();
 
-            $this->addFlash('success', 'Le produit a bien été ajouté à votre panier !');
-            return $this->redirectToRoute('shopping_cart');
+                $this->addFlash('success', 'Le produit a bien été ajouté à votre panier !');
+                return $this->redirectToRoute('shopping_cart');
+            }
+
+            return $this->render('products/product.html.twig', [
+                'onPage' => '',
+                'product' => $product,
+                'cartLineForm' => $form->createView()
+            ]);
+
+        } else {
+
+            $this->addFlash('error', 'Le produit n\'a pas été trouvé');
+            return $this->redirectToRoute('products');
+
         }
-
-        return $this->render('products/product.html.twig', [
-            'onPage' => '',
-            'product' => $product,
-            'cartLineForm' => $form->createView()
-        ]);
     }
 
     /**
@@ -106,13 +107,22 @@ class ProductsController extends AbstractController
     {
         $product = $this->productRepository->find($id);
 
-        $product->deleteFile();
+        if($product) {
 
-        $entityManager->remove($product);
-        $entityManager->flush();
+            $product->deleteFile();
 
-        $this->addFlash('success', 'Le produit a bien été supprimé !');
-        return $this->redirectToRoute('products');
+            $entityManager->remove($product);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le produit a bien été supprimé !');
+            return $this->redirectToRoute('products');
+
+        } else {
+
+            $this->addFlash('error', 'Le produit n\'a pas été trouvé');
+            return $this->redirectToRoute('products');
+
+        }
     }
 
      /**
@@ -147,10 +157,19 @@ class ProductsController extends AbstractController
     {
         $cartLine = $this->cartLineRepository->find($id);
 
-        $entityManager->remove($cartLine);
-        $entityManager->flush();
+        if($cartLine) {
 
-        $this->addFlash('success', 'Le produit a bien été retiré de votre panier !');
-        return $this->redirectToRoute('shopping_cart');
+            $entityManager->remove($cartLine);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le produit a bien été retiré de votre panier !');
+            return $this->redirectToRoute('shopping_cart');
+
+        } else {
+
+            $this->addFlash('error', 'Le panier n\'a pas été trouvé');
+            return $this->redirectToRoute('shopping_cart');
+
+        }
     }
 }

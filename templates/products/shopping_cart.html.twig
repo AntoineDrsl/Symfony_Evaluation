@@ -4,12 +4,20 @@
 
 {% block body %}
    <div class="container">
+
        <h1 class="my-5 text-center">Votre panier</h1>
+
        {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
         {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         {% if cartLines != [] %}
             <table class="table text-center">
                 <thead>
